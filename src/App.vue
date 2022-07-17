@@ -1,107 +1,101 @@
 <template>
-  <div id="app">
-    <div>
-      <span>姓名:</span>
-      <input type="text" v-model="Nname" />
-    </div>
-    <div>
-      <span>年龄:</span>
-      <input type="number" v-model="Nage" />
-    </div>
-    <div>
-      <span>性别:</span>
-      <select v-model="Nsex">
-        <option value="男">男</option>
-        <option value="女">女</option>
-      </select>
-    </div>
-    <div>
-      <button @click="add">添加/修改</button>
-    </div>
-    <div>
-      <table border="1" cellpadding="10" cellspacing="0">
+  <div>
+    <table
+      border="1"
+      width="700"
+      style="border-collapse: collapse"
+    >
+      <caption>
+        购物车
+      </caption>
+      <thead>
         <tr>
-          <th>序号</th>
-          <th>姓名</th>
-          <th>年龄</th>
-          <th>性别</th>
+          <th>
+            <input type="checkbox" v-model="checked"/> <span>全选</span>
+          </th>
+          <th>名称</th>
+          <th>价格</th>
+          <th>数量</th>
+          <th>总价</th>
           <th>操作</th>
         </tr>
-        <tr v-for="(item, index) in arr" :key="index">
-          <td>{{ index + 1 }}</td>
-          <td>{{ item.name }}</td>
-          <td>{{ item.age }}</td>
-          <td>{{ item.sex }}</td>
-          <td>
-            <button :value="item" @click="del(index)">删除</button>
-            <button @click="edi(index)">编辑</button>
+      </thead>
+      <tbody>
+        <Goods 
+            v-for="(item, index) in goodList" 
+            :key="index"
+            :obj="item"
+            :index="index"
+            v-on:changeFn="changeFn"
+            v-on:addFn="addFn"
+        />
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>合计:</td>
+          <td colspan="5">
+            
           </td>
         </tr>
-      </table>
-      <div>{{ Nname }}</div>
-      <div>{{ Nage }}</div>
-      <div>{{ Nsex }}</div>
-    </div>
+      </tfoot>
+    </table>
   </div>
 </template>
+
 <script>
+import Goods from "./components/YourGoods.vue"
 export default {
   data() {
     return {
-      arr: [
+      goodList: [
         {
-          name: "Tom",
-          age: 18,
-          sex: "男",
+          name: "诸葛亮",
+          price: 1000,
+          num: 1,
+          checked: false,
         },
         {
-          name: "Jerry",
-          age: 119,
-          sex: "男",
+          name: "蔡文姬",
+          price: 1500,
+          num: 1,
+          checked: false,
         },
         {
-          name: "Dogge",
-          age: 18,
-          sex: "女",
+          name: "妲己",
+          price: 2000,
+          num: 1,
+          checked: false,
+        },
+        {
+          name: "鲁班",
+          price: 2200,
+          num: 1,
+          checked: false,
         },
       ],
-      Nname: "",
-      Nage: "",
-      Nsex: "男",
-      Arr1: {},
-      id: 1,
-      status: false,
     };
   },
-  methods: {
-    add() {
-      console.log(this.arr);
-      let obj = { name: this.Nname, age: this.Nage, sex: this.Nsex };
-      //  console.log(obj);
-      if (!this.status) {
-        this.arr.push(obj);
-      } else {
-        this.arr.splice(this.id, 1, obj);
-        this.Nname = "";
-        this.Nage = "";
-        this.Nsex = "男";
-      }
-    },
-    del(val) {
-      // console.log(val);
-      this.arr.splice(val, 1);
-    },
-    edi(val) {
-      console.log(this.arr[val]);
-      console.log(this.arr[val].status);
-      this.arr[val].status = 10;
-      this.Nname = this.arr[val].name;
-      this.Nage = this.arr[val].age;
-      this.Nsex = this.arr[val].sex;
-      // this.arr.splice(val, 1)
-      this.id = val;
-      this.status = true;
-    },
+  components:{
+    Goods
   },
+  methods: {
+    changeFn(val,a){
+        console.log(val,a);
+        this.goodList[a].checked = val
+    },
+    addFn(val,a){
+        console.log(val,a);
+    this.goodList[a].num++
+        // console.log(this.num);
+    },
+    //全选
+    
+  },
+  watch:{
+    
+  }
 };
 </script>
+
+<style>
+</style>
