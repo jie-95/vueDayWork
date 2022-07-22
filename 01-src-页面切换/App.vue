@@ -1,9 +1,10 @@
 <template>
   <div>
     <div class="footer_wrap">
-      <router-link to="/zhuye">主页</router-link>
-      <router-link to="/xinwen">新闻</router-link>
-      <router-link to="/tiyu">体育</router-link>
+      <router-link to="/shouye">首页</router-link>
+      <router-link to="/fenlei">分类</router-link>
+      <router-link to="/dingdan">订单</router-link>
+      <router-link to="/my">我的</router-link>
     </div>
     <div class="top">
       <router-view></router-view>
@@ -48,6 +49,5 @@ export default {
 .footer_wrap .router-link-active {
   background-color: brown;
 }
-
 </style>
 
