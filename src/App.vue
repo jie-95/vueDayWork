@@ -1,53 +1,28 @@
 <template>
-  <div>
-    <div class="footer_wrap">
-      <router-link to="/zhuye">主页</router-link>
-      <router-link to="/xinwen">新闻</router-link>
-      <router-link to="/tiyu">体育</router-link>
-    </div>
-    <div class="top">
-      <router-view></router-view>
-    </div>
+  <div id="app">
+    <img alt="Vue logo" src="./assets/logo.png">
+    <HelloWorld msg="Welcome to Your Vue.js App"/>
   </div>
 </template>
 
-
 <script>
+import HelloWorld from './components/HelloWorld.vue'
 
 export default {
- 
-};
+  name: 'App',
+  components: {
+    HelloWorld
+  }
+}
 </script>
 
-<style scoped>
-.footer_wrap {
-  position: fixed;
-  left: 0;
-  top: 0;
-  display: flex;
-  width: 100%;
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  background-color: #333;
-  color: #ccc;
+  color: #2c3e50;
+  margin-top: 60px;
 }
-.footer_wrap a {
-  flex: 1;
-  text-decoration: none;
-  padding: 20px 0;
-  line-height: 20px;
-  background-color: #333;
-  color: #ccc;
-  border: 1px solid black;
-}
-.footer_wrap a:hover {
-  background-color: #555;
-}
-.top {
-  padding-top: 62px;
-}
-.footer_wrap .router-link-active {
-  background-color: brown;
-}
-
 </style>
-
