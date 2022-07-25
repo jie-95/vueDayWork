@@ -8,7 +8,7 @@
       </van-col>
     </van-row>
     <p class="title">最新音乐</p>
-    <van-cell-group v-for="item in reList" :key="item.id">
+    <!-- <van-cell-group v-for="item in reList" :key="item.id">
       <van-cell 
       :title="item.name" 
       center 
@@ -17,12 +17,22 @@
           <van-icon name="play-circle-o" size="0.6rem" />
         </template>
       </van-cell>
-    </van-cell-group>
+    </van-cell-group> -->
+    <SongItem
+    v-for="item in reList" 
+    :key="item.id"
+    :name="item.name"
+    :author="item.song.artists[0].name"
+    :id= "item.id"
+    ></SongItem>
+   
   </div>
 </template>
 
 <script>
 import { recommendSongListApi, newSongListApi } from "@/api";
+
+import SongItem from '@/components/SongItem.vue';
 export default {
   name: "MusicDemoIndex",
   data() {
@@ -30,6 +40,10 @@ export default {
       list: [],
       reList: [],
     };
+  },
+  components:{
+    SongItem,
+  
   },
   /*  mounted() {
     recommendSongListApi({

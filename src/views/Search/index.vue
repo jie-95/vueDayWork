@@ -1,5 +1,5 @@
 <template>
-  <div  class="songList">
+  <div class="songList">
     <van-search
       shape="round"
       placeholder="请输入搜索关键词"
@@ -13,12 +13,11 @@
       <!-- 热搜关键词容器 -->
       <div class="hot_name_wrap">
         <!-- 每个搜索关键词 -->
-        <span 
-        class="hot_item" 
-        v-for="(item, index) 
-        in hotlist" 
-        :key="index"
-        @click="hotInput(item.first)"
+        <span
+          class="hot_item"
+          v-for="(item, index) in hotlist"
+          :key="index"
+          @click="hotInput(item.first)"
           >{{ item.first }}
         </span>
       </div>
@@ -27,11 +26,16 @@
 
     <div v-else>
       <span>
-        <van-cell-group>
+        <van-list
+          v-model="loading"
+          :finished="finished"
+          finished-text="没有更多了"
+          @load="onLoad"
+        >
           <van-cell
             center
-            v-for="item in list"
-            :key="item.id"
+            v-for="(item, index) in list"
+            :key="index"
             :title="item.name"
             :label="`${item.ar[0].name}-${item.name}`"
           >
@@ -39,19 +43,24 @@
               <van-icon name="play-circle-o" size="0.6rem" />
             </template>
           </van-cell>
-        </van-cell-group>
+        </van-list>
       </span>
     </div>
   </div>
 </template>
 <script>
 import { searchHotListApi, cloudSearchApi } from "@/api";
+// import { ref } from "vue";
 export default {
   data() {
     return {
       hotlist: [],
       list: [],
       value: "",
+      loading: false,
+      finished: false,
+      page: 1,
+      timer:null
     };
   },
   async mounted() {
@@ -75,6 +84,7 @@ export default {
       try {
         const res = await cloudSearchApi({
           keywords: this.value,
+          offset: (this.page - 1) * 30,
         });
         return (res.data.result && res.data.result.songs) || [];
       } catch (e) {
@@ -83,8 +93,11 @@ export default {
     },
     //所搜列表展示
     //const timer(),
-    // 封装防抖函数
+
     async inputFn() {
+      // if(!this.value.trim()){ return}
+      if(this.timer) clearTimeout(this.timer)
+     
       try {
         this.list = await this.cloudSearch();
         console.log(this.list);
@@ -95,11 +108,28 @@ export default {
         this.list = [];
       }
     },
-    hotInput(val){
+
+    hotInput(val) {
+      this.page = 1;
       console.log(val);
       this.value = val;
-      this.inputFn()
-    }
+      this.inputFn();
+    },
+    async onLoad() {
+      // 异步更新数据
+      // setTimeout 仅做示例，真实场景中一般为 ajax 请求
+      // console.log(1321321321);
+
+      this.page++;
+      const newList = await this.cloudSearch();
+
+      if(!newList.songs){
+        this.finished = true;
+        this.loading = false;
+      }
+      this.list = [...this.list, ...newList];
+      this.loading = false;
+    },
   },
 };
 </script>

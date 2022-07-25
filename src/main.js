@@ -26,6 +26,7 @@ import {
   CellGroup,
   Icon,
   Search,
+  List
 } from "vant";
 Vue.use(Tabbar);
 Vue.use(TabbarItem);
@@ -37,6 +38,10 @@ Vue.use(Cell);
 Vue.use(CellGroup);
 Vue.use(Icon);
 Vue.use(Search);
+Vue.use(List);
+
+
+
 
 Vue.config.productionTip = false;
 
